@@ -50,7 +50,7 @@ Request * parse(char *buffer, int size, int socketFd) {
 	if (state == STATE_CRLFCRLF) {
 		Request *request = (Request *) malloc(sizeof(Request));
     request->header_count=0;
-    //TODO You will need to handle resizing this in parser.y
+    //You will need to handle resizing this in parser.y
     request->headers = (Request_header *) malloc(sizeof(Request_header)*1);
 		set_parsing_options(buf, i, request);
 
@@ -58,7 +58,6 @@ Request * parse(char *buffer, int size, int socketFd) {
       return request;
 		}
 	}
-  //TODO Handle Malformed Requests
-  printf("Parsing Failed\n");
-
+  //Handle Malformed Requests
+	return NULL;
 }
