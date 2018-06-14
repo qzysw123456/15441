@@ -20,6 +20,10 @@ int main(int argc, char **argv){
   //Parse the buffer to the parse function. You will need to pass the socket fd and the buffer would need to
   //be read from that fd
   Request *request = parse(buf,readRet,fd_in);
+	if(request == NULL) {
+		printf("fail\n");
+		return 0;
+	}
   //Just printing everything
   printf("Http Method %s\n",request->http_method);
   printf("Http Version %s\n",request->http_version);
@@ -28,7 +32,7 @@ int main(int argc, char **argv){
     printf("Request Header\n");
     printf("Header name %s Header Value %s\n",request->headers[index].header_name,request->headers[index].header_value);
   }
-  free(request->headers);
+ // free(request->headers);
   free(request);
   return 0;
 }
