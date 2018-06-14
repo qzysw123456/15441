@@ -23,7 +23,8 @@
 #define ECHO_PORT 9999
 #define BUF_SIZE 4096
 
-const char* SEND = "GET / HTTP/1.1\r\nUser-Agent: 441UserAgent/1.0.0\r\n\r\n";
+//const char* SEND = "GET / HTTP/1.1\r\nUser-Agent: 441UserAgent/1.0.0\r\n\r\n";
+const char* SEND = "GET\r / HTTP/1.1\r\nUser-Agent: 441UserAgent/1.0.0\r\n\r\n";
 
 int main(int argc, char* argv[])
 {
@@ -78,4 +79,4 @@ int main(int argc, char* argv[])
     freeaddrinfo(servinfo);
     close(sock);    
     return EXIT_SUCCESS;
-}
+} 
