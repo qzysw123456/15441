@@ -20,8 +20,8 @@ y.tab.c: parser.y
 example: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
-echo_server:
-	$(CC) echo_server.c -o echo_server -Wall -Werror
+echo_server: y.tab.o lex.yy.o parse.o echo_server.o
+	$(CC) -o $@ $^ -Wall -Werror
 
 echo_client:
 	$(CC) echo_client.c -o echo_client -Wall -Werror
