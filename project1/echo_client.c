@@ -23,6 +23,8 @@
 #define ECHO_PORT 9999
 #define BUF_SIZE 4096
 
+const char* SEND = "GET / HTTP/1.1\r\nUser-Agent: 441UserAgent/1.0.0\r\n\r\n";
+
 int main(int argc, char* argv[])
 {
     if (argc != 3)
@@ -59,12 +61,14 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
         
-    char msg[BUF_SIZE]; 
-    fgets(msg, BUF_SIZE, stdin);
+    //char msg[BUF_SIZE]; 
+    //fgets(msg, BUF_SIZE, stdin);
     
     int bytes_received;
-    fprintf(stdout, "Sending %s", msg);
-    send(sock, msg , strlen(msg), 0);
+    //fprintf(stdout, "Sending %s", msg);
+    //send(sock, msg , strlen(msg), 0);
+	send(sock, SEND, strlen(SEND), 0);
+	fprintf(stdout, "Sending %s", SEND);
     if((bytes_received = recv(sock, buf, BUF_SIZE, 0)) > 1)
     {
         buf[bytes_received] = '\0';
