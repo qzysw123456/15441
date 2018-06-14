@@ -87,11 +87,17 @@ int main(int argc, char* argv[])
 				}
 				else {
 					readret = recv(i, buf, sizeof buf, 0);
-					Request* t = parse(buf, readret, i);
-					if(t != NULL)
-						send(i, buf, readret, 0);
-					else
-						send(i, BAD_REQUEST_RESPONSE, strlen(BAD_REQUEST_RESPONSE), 0);
+					if(readret > 0) {
+						Request* t = parse(buf, readret, i);
+						if(t != NULL)
+							send(i, buf, readret, 0);
+						else
+							send(i, BAD_REQUEST_RESPONSE, strlen(BAD_REQUEST_RESPONSE), 0);
+					}
+					else {
+						close_socket(i);
+						FD_CLR(i, &master);
+					}
 				}
 			}
 		}	
