@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#include "parse.h"
 
 #define ECHO_PORT 9999
 #define BUF_SIZE 4096
@@ -44,6 +45,7 @@ int open_socket()
 	
 	return sock;
 }
+const char* BAD_REQUEST_RESPONSE = "HTTP/1.1 400 Bad Request\r\n";
 int main(int argc, char* argv[])
 {
 	int client_sock;
@@ -85,7 +87,11 @@ int main(int argc, char* argv[])
 				}
 				else {
 					readret = recv(i, buf, sizeof buf, 0);
-					send(i, buf, readret, 0);
+					Request* t = parse(buf, readret, i);
+					if(t != NULL)
+						send(i, buf, readret, 0);
+					else
+						send(i, BAD_REQUEST_RESPONSE, strlen(BAD_REQUEST_RESPONSE), 0);
 				}
 			}
 		}	
