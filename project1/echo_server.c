@@ -71,8 +71,6 @@ int main(int argc, char* argv[])
 	
 	FD_SET(sock, &master);	
 
-	FILE* fd = fopen("log.txt", "w");
-
 	while("server forever")
 	{
 		read_fds = master;
