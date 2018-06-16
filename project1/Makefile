@@ -28,3 +28,9 @@ echo_client:
 
 clean:
 	rm -f *~ *.o example lex.yy.c y.tab.c y.tab.h echo_server echo_client
+
+test:
+	./cp1_checker.py 127.0.0.1 9999 1000 10 500
+
+test2:
+	./check.py 127.0.0.1 9999 1000 10 2048 500
