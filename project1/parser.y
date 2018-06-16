@@ -197,8 +197,7 @@ request_line: token t_sp text t_sp text t_crlf {
 
 request_header: token ows t_colon ows text ows t_crlf {
 	YPRINTF("request_Header:\n%s\n%s\n",$1,$5);
-	Request_header* t = parsing_request->headers + parsing_request->header_count;
-	t = (Request_header* )malloc(sizeof(Request_header)*1);
+	//parsing_request->headers = (Request_header* )realloc(parsing_request->headers, sizeof(Request_header) * parsing_request->header_count);
     strcpy(parsing_request->headers[parsing_request->header_count].header_name, $1);
 	strcpy(parsing_request->headers[parsing_request->header_count].header_value, $5);
 	parsing_request->header_count++;
@@ -211,12 +210,10 @@ request_header: token ows t_colon ows text ows t_crlf {
  * and the annotated excerpted text on the course website. All the best!
  *
  */
-request_headers: t_crlf {
-}; |
-request_header request_headers {
-};
+request_headers: request_header request_headers {}
+	| {}; 
 
-request: request_line request_header request_headers {
+request: request_line request_header request_headers t_crlf {
 	YPRINTF("parsing_request: Matched Success.\n");
 	return SUCCESS;
 };
@@ -233,4 +230,6 @@ void set_parsing_options(char *buf, size_t siz, Request *request)
     parsing_request = request;
 }
 
-void yyerror (char *s) {;}
+void yyerror (char *s) {
+	return;
+}
