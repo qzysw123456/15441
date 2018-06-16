@@ -70,8 +70,8 @@ for i in xrange(numTrials):
             if time.time() - start_time > RECV_TOTAL_TIMEOUT:
                 break
         if data != randomData[j]:
-            sys.stderr.write("Error: Data received is not the same as sent! \n")
-            sys.exit(1)
+           sys.stderr.write("Error: Data received is not the same as sent! \n")
+           sys.exit(1)
 
 for i in xrange(numConnections):
     socketList[i].close()

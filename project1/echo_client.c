@@ -25,6 +25,8 @@
 
 //const char* SEND = "GET / HTTP/1.1\r\nUser-Agent: 441UserAgent/1.0.0\r\n\r\n";
 const char* SEND = "GET\r / HTTP/1.1\r\nUser-Agent: 441UserAgent/1.0.0\r\n\r\n";
+//const char* SEND = "GET / HTTP/1.1\nUser-Agent: 441UserAgent/1.0.0\r\n\r\n";
+//const char* SEND = "GET / HTTP/1.1\rUser-Agent: 441UserAgent/1.0.0\r\n\r\n";
 
 int main(int argc, char* argv[])
 {
@@ -73,7 +75,7 @@ int main(int argc, char* argv[])
     if((bytes_received = recv(sock, buf, BUF_SIZE, 0)) > 1)
     {
         buf[bytes_received] = '\0';
-        fprintf(stdout, "Received %s", buf);
+        fprintf(stdout, "Received %sreceived %d\n", buf, bytes_received);
     }        
 
     freeaddrinfo(servinfo);
