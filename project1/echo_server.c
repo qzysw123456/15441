@@ -46,6 +46,7 @@ int open_socket()
 	return sock;
 }
 const char* BAD_REQUEST_RESPONSE = "HTTP/1.1 400 Bad Request\r\n";
+
 int main(int argc, char* argv[])
 {
 	int client_sock;
@@ -54,7 +55,8 @@ int main(int argc, char* argv[])
 	struct sockaddr_in cli_addr;
 	char buf[BUF_SIZE];
 
-	fprintf(stdout, "----- Echo -----\n");
+	int LEN = strlen(BAD_REQUEST_RESPONSE);
+	fprintf(stdout, "----- Echo ----- %d %d\n", LEN, sizeof BAD_REQUEST_RESPONSE);
 	
 	int sock = open_socket();
 	
@@ -68,7 +70,9 @@ int main(int argc, char* argv[])
 	FD_ZERO(&read_fds);
 	
 	FD_SET(sock, &master);	
-	
+
+	FILE* fd = fopen("log.txt", "w");
+
 	while("server forever")
 	{
 		read_fds = master;
@@ -87,14 +91,21 @@ int main(int argc, char* argv[])
 				}
 				else {
 					readret = recv(i, buf, sizeof buf, 0);
+//					buf[readret] = '\0';
+//					fprintf(stdout, "serv recv %d bytes: %s\n", readret, buf);
 					if(readret > 0) {
 						Request* t = parse(buf, readret, i);
-						if(t != NULL)
+						if(t != NULL) {
 							send(i, buf, readret, 0);
-						else
-							send(i, BAD_REQUEST_RESPONSE, strlen(BAD_REQUEST_RESPONSE), 0);
+//							fprintf(fd, "serv send %d bytes: %s\n", readret, buf);
+						}
+						else {
+							send(i, BAD_REQUEST_RESPONSE, LEN, 0);
+//							fprintf(fd, "serv send %d bytes: %s\n", LEN, BAD_REQUEST_RESPONSE);
+						}
 					}
 					else {
+//						fprintf(stdout, "closed\n");
 						close_socket(i);
 						FD_CLR(i, &master);
 					}
@@ -103,6 +114,5 @@ int main(int argc, char* argv[])
 		}	
 	}
 	close_socket(sock);
-
 	return 0;
 }
