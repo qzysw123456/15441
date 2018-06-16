@@ -56,7 +56,7 @@ int main(int argc, char* argv[])
 	char buf[BUF_SIZE];
 
 	int LEN = strlen(BAD_REQUEST_RESPONSE);
-	fprintf(stdout, "----- Echo ----- %d %d\n", LEN, sizeof BAD_REQUEST_RESPONSE);
+	fprintf(stdout, "----- Echo -----\n");
 	
 	int sock = open_socket();
 	
@@ -91,21 +91,16 @@ int main(int argc, char* argv[])
 				}
 				else {
 					readret = recv(i, buf, sizeof buf, 0);
-//					buf[readret] = '\0';
-//					fprintf(stdout, "serv recv %d bytes: %s\n", readret, buf);
 					if(readret > 0) {
 						Request* t = parse(buf, readret, i);
 						if(t != NULL) {
 							send(i, buf, readret, 0);
-//							fprintf(fd, "serv send %d bytes: %s\n", readret, buf);
 						}
 						else {
 							send(i, BAD_REQUEST_RESPONSE, LEN, 0);
-//							fprintf(fd, "serv send %d bytes: %s\n", LEN, BAD_REQUEST_RESPONSE);
 						}
 					}
 					else {
-//						fprintf(stdout, "closed\n");
 						close_socket(i);
 						FD_CLR(i, &master);
 					}
