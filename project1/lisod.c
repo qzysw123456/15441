@@ -56,7 +56,6 @@ int main(int argc, char* argv[])
 	char buf[BUF_SIZE];
 
 	int LEN = strlen(BAD_REQUEST_RESPONSE);
-	fprintf(stdout, "----- Echo -----\n");
 	
 	int sock = open_socket();
 	
