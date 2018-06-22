@@ -6,7 +6,7 @@ FLAGS = -g -Wall
 
 default:all
 
-all: lisod echo_client
+all: lisod
 
 lex.yy.c: lexer.l
 	flex $^
@@ -20,11 +20,8 @@ y.tab.c: parser.y
 lisod: $(OBJ)
 	$(CC) -o $@ $^ -Wall -Werror
 
-echo_client:
-	$(CC) echo_client.c -o echo_client -Wall -Werror
-
 clean:
-	rm -f *~ *.o lex.yy.c y.tab.c y.tab.h lisod echo_client
+	rm -f *~ *.o lex.yy.c y.tab.c y.tab.h lisod
 
 test:
 	./cp1_checker.py 127.0.0.1 9999 1000 10 500
